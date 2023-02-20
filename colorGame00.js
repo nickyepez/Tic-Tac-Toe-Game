@@ -1,26 +1,36 @@
-const Square = ({ id }) => {
+const Square = ({ id, player }) => {
+    const [color, setColor] = React.useState("green");
+    const palet = ["red", "blue", "green"];
+    const getRandomColor = () => palet[Math.floor(Math.random() * 3)];
+
+    // keep track of state of the Square
     return (
-    <button>
-        <h1>{id}</h1>
-    </button>
+        // change color of Square on click
+        <button onClick={e => {
+            setColor(getRandomColor());
+            e.target.style.background = color;
+        }}
+        >
+            <h1>{id}</h1>
+        </button>
     );
 };
 
 const Board = () => {
     const [player, setPlayer] = React.useState(1);
     let status = `Player ${player}`;
-    function rednerSquare(i) {
-        return <Square id={i}></Square>;
+    function renderSquare(i) {
+        return <Square id={i} player={player}></Square>;
     }
     return (
         <div className="game-board">
             <div className="grid-row">
-                {rednerSquare(0)}
-                {rednerSquare(1)}
-                {rednerSquare(2)}
+                {renderSquare(0)}
+                {renderSquare(1)}
+                {renderSquare(2)}
             </div>
             <div id="info">
-                <h1> {status} </h1>
+                <h1> Turn of player {player} </h1>
             </div>
         </div>
     );
