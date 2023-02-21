@@ -1,5 +1,8 @@
-const Square = ({ id, player, newState }) => {
+const Square = ({ id, newState }) => {
     const [color, setColor] = React.useState("green");
+    const [status, setStatus] = React.useState(null);
+    const xo = ["O", "X"];
+
     const palet = ["red", "blue", "green"];
     const getRandomColor = () => palet[Math.floor(Math.random() * 3)];
 
@@ -7,17 +10,17 @@ const Square = ({ id, player, newState }) => {
         console.log(`Render ${id}`);
         return () => console.log(`unmounting Square ${id}`);
     });
-
     // keep track of state of the Square
     return (
         <button onClick={e => {
             let col = getRandomColor(); //needed to use below
             setColor(col);
-            newState({ id: id, color: col });
+            let nextPlayer = newState({ id: id, color: col });
+            setStatus(nextPlayer);
             e.target.style.background = col;
         }}
         >
-            <h1>{id}</h1>
+            <h1>{xo[status]}</h1>
         </button>
     );
 };
@@ -30,9 +33,13 @@ const Board = () => {
 
     // define newState function
     const newState = ob => {
+        let nextplayer = (player + 1) % 2;
+        setPlayer(nextplayer);
         setState([...state, ob]);
         console.log(`adding state ${JSON.stringify(state)}`);
-    }
+        status = `Player ${nextplayer}`;
+        return nextplayer;
+    };
 
     function renderSquare(i) {
         return <Square id={i} player={player} newState={newState}></Square>;
