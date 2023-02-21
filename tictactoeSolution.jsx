@@ -39,6 +39,8 @@ const Board = () => {
         {renderSquare(8)}
       </div>
       <div id="info">
+      {/* // Part 1 step 2 code goes here 
+          Display the player's turn */}
         <h1 id="turn">{playerTurn}</h1>
         <h1>{status}</h1>
       </div>
